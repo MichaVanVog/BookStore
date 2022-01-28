@@ -1,0 +1,36 @@
+﻿@model List<BookViewModel>
+@{
+    ViewData["Title"] = "Каталог книг";
+}
+
+<h1>Список книг</h1>
+<table class="table">
+    <tr>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.TitleSort">
+                Наименование
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.AuthorSort">
+                Автор
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.ReleaseYear">
+                Год
+            </a>
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    @foreach (var book in Model)
+    {
+        <tr><td>@book.Title</td><td>@book.Author</td><td>@book.ReleaseYear</td>
+            <td>
+                <a class="btn btn-warning" asp-controller="Home" asp-action="Buy" asp-route-bookId="@book.Id" role="button">Купить</a>
+            </td>
+        </tr>
+    }
+</table>

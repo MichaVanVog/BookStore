@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookStoreWebApp.Controllers
 {
@@ -19,9 +20,9 @@ namespace BookStoreWebApp.Controllers
             this.booksRepository = booksRepository;
         }
 
-        public IActionResult Index(SortState sortOrder = SortState.TitleAsc)
+        public async Task<IActionResult> Index(SortState sortOrder = SortState.TitleAsc)
         {
-            var books = booksRepository.GetAll();
+            var books = await booksRepository.GetAllAsync();
             var queryableBooks = books.AsQueryable();
             ViewData["TitleSort"] = sortOrder == SortState.TitleAsc ? SortState.TitleDesc : SortState.TitleAsc;
             ViewData["AuthorSort"] = sortOrder == SortState.AuthorAsc ? SortState.AuthorDesc : SortState.AuthorAsc;
@@ -41,9 +42,9 @@ namespace BookStoreWebApp.Controllers
             return View(Mapping.ToBookViewModel(books));
         }
 
-        public IActionResult Buy(Guid bookId)
+        public async Task<IActionResult> BuyAsync(Guid bookId)
         {
-            booksRepository.Buy(bookId);
+            await booksRepository.BuyAsync(bookId);
             return RedirectToAction(nameof(Index));
         }
 

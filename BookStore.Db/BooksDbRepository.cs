@@ -1,7 +1,9 @@
 ﻿using BookStore.Db.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookStore.Db
 {
@@ -15,14 +17,14 @@ namespace BookStore.Db
             this.databaseContext = databaseContext;
         }
 
-        public List<Book> GetAll()
+        public async Task<List<Book>> GetAllAsync()
         {
-            return databaseContext.Books.ToList();
+            return await databaseContext.Books.ToListAsync();
         }
 
-        public void Buy (Guid bookId)
+        public async Task BuyAsync (Guid bookId)
         {
-            var buyBook = databaseContext.Books.FirstOrDefault(book => book.Id == bookId);
+            var buyBook = await databaseContext.Books.FirstOrDefaultAsync(book => book.Id == bookId);
             databaseContext.Books.Remove(buyBook);
             databaseContext.SaveChanges();
         }
